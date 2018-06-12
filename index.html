@@ -74,6 +74,10 @@ permissions and limitations under the License.
                             <div class="btn pull-left" id="bucket">
                                 <i id="bucket-chooser" style="cursor: pointer;" class="fas fa-cog fa-2x" title="Switch to a different S3 Bucket"></i>
                             </div>
+                            <!-- Endpoint selection -->
+                            <div class="btn pull-left" id="endpoint">
+                                <i id="endpoint-chooser" style="cursor: pointer;" class="fas fa-cog fa-2x" title="Switch to a different S3 endpoint"></i>
+                            </div>
                             <!-- Bucket breadcrumbs -->
                             <div class="btn pull-right">
                                 <ul id="breadcrumb" class="btn breadcrumb pull-right">
@@ -422,6 +426,19 @@ permissions and limitations under the License.
 
     function promptForBucketInput() {
         bootbox.prompt("Please enter the S3 bucket name", function(result) {
+            if (result !== null) {
+                resetDepth();
+                s3exp_config = {
+                    Bucket: result,
+                    Delimiter: '/'
+                };
+                (s3exp_lister = s3list(s3exp_config, s3draw)).go();
+            }
+        });
+    }
+    
+    function promptForEndpointInput() {
+        bootbox.prompt("Please enter the S3 endpoint url", function(result) {
             if (result !== null) {
                 resetDepth();
                 s3exp_config = {
